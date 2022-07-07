@@ -5,6 +5,7 @@ import com.example.demokt.entity.DemoEntity
 import com.example.demokt.repository.DemoRepository
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
+import java.util.UUID
 
 /**
  *packageName    : com.example.demokt.service
@@ -28,6 +29,9 @@ class DefaultDemoService(
     }
 
     override fun add(demoDTO: DemoDTO): Mono<DemoDTO> {
+        val entity: DemoEntity = toEntity(demoDTO)
+        entity.oid = UUID.randomUUID().toString()
+        entity.new = true
         return demoRepository.save(toEntity(demoDTO))
             .map { toDTO(it) }
     }
@@ -41,10 +45,16 @@ class DefaultDemoService(
     }
 
     fun toDTO(demoEntity: DemoEntity): DemoDTO {
-        TODO("Not yet implemented")
+        return DemoDTO(demoEntity.oid, demoEntity.name, demoEntity.phone, demoEntity.age)
     }
 
     fun toEntity(demoDTO: DemoDTO): DemoEntity {
-        TODO("Not yet implemented")
+        var oid: String? = demoDTO.oid
+
+        if (oid == null) {
+            oid = ""
+        }
+
+        return DemoEntity(oid, demoDTO.name, demoDTO.phone, demoDTO.age, false)
     }
 }

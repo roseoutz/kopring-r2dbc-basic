@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.domain.Persistable
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
+import org.springframework.data.annotation.Transient
 
 /**
  *packageName    : com.example.demokt.entity
@@ -20,14 +21,14 @@ import org.springframework.data.relational.core.mapping.Table
 @Table("demo_table")
 data class DemoEntity(
     @Id
-    val oid: String,
+    var oid: String,
     @Column("name")
     val name: String,
     @Column("phone")
     val phone: String,
     @Column("age")
     val age: Int,
-    @org.springframework.data.annotation.Transient val isNew: Boolean?
+    @Transient var new: Boolean
 ): Persistable<String> {
 
     override fun getId(): String {
@@ -35,6 +36,6 @@ data class DemoEntity(
     }
 
     override fun isNew(): Boolean {
-        TODO("Not yet implemented")
+        return new
     }
 }

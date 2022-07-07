@@ -12,7 +12,7 @@ package com.example.demokt.dto
  * 2022/07/07        kimdonggyuuuuu       최초 생성
  */
 data class DemoDTO(
-    val oid: String,
+    var oid: String?,
     val name: String,
     val phone: String,
     val age: Int
